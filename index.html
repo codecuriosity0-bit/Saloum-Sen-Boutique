@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saloum Sen Boutique — Électroménager à Ziguinchor</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <span class="mark">S</span>
+      Saloum Sen Boutique
+    </a>
+    <div class="nav-links">
+      <a href="index.html#produits">Produits</a>
+      <a href="index.html#pourquoi">Pourquoi nous</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+    <button class="nav-cart" id="cart-toggle"><span class="dot"></span> Panier (<span id="cart-count">0</span>)</button>
+  </div>
+</nav>
+
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-drawer" id="cart-drawer">
+  <div class="cart-drawer-head">
+    <h3>Votre panier</h3>
+    <button class="cart-close" id="cart-close" aria-label="Fermer le panier">×</button>
+  </div>
+  <div class="cart-items" id="cart-items"></div>
+  <div class="cart-drawer-foot">
+    <div class="cart-total-row"><span>Total</span><strong id="cart-total">0 FCFA</strong></div>
+    <button class="btn btn-teal cart-checkout" id="cart-checkout">Commander sur WhatsApp</button>
+  </div>
+</aside>
+
+<header class="hero">
+  <svg class="hero-grid-bg" width="100%" height="100%" preserveAspectRatio="none">
+    <defs>
+      <pattern id="grid" width="46" height="46" patternUnits="userSpaceOnUse">
+        <path d="M 46 0 L 0 0 0 46" fill="none" stroke="rgba(217,164,65,0.08)" stroke-width="1"/>
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#grid)"/>
+  </svg>
+  <div class="wrap">
+    <span class="hero-eyebrow">Ziguinchor · Casamance</span>
+    <h1>L'électroménager qui <em>tient la route</em>, livré à Ziguinchor.</h1>
+    <p>Réfrigérateurs, cuisinières, climatiseurs et petit électroménager choisis pour durer sous le climat casamançais — avec garantie et service après-vente sur place.</p>
+    <div class="hero-actions">
+      <a class="btn btn-gold" href="#produits">Voir les produits</a>
+      <a class="btn btn-ghost" href="https://wa.me/221783873491" target="_blank" rel="noopener">Nous écrire sur WhatsApp</a>
+    </div>
+    <div class="hero-stats">
+      <div><strong>9</strong><span>catégories en stock</span></div>
+      <div><strong>48h</strong><span>livraison à Ziguinchor</span></div>
+      <div><strong>24 mois</strong><span>garantie sur le froid</span></div>
+    </div>
+  </div>
+</header>
+
+<section class="cats">
+  <div class="wrap">
+    <div class="cats-row">
+      <a class="cat-chip" href="#produits">Réfrigération</a>
+      <a class="cat-chip" href="#produits">Cuisson</a>
+      <a class="cat-chip" href="#produits">Lavage</a>
+      <a class="cat-chip" href="#produits">Climatisation</a>
+      <a class="cat-chip" href="#produits">Petit électroménager</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="produits">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>Produits en vedette</h2>
+        <p>Une sélection pensée pour les foyers et petits commerces de Ziguinchor — du frigo familial au ventilateur de chevet.</p>
+      </div>
+    </div>
+    <div class="grid" id="featured-grid"></div>
+  </div>
+</section>
+
+<section class="why" id="pourquoi">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>Pourquoi passer par nous</h2>
+        <p>Trois habitudes qu'on ne lâche pas, commande après commande.</p>
+      </div>
+    </div>
+    <div class="why-grid">
+      <div class="why-item">
+        <span class="num">Livraison</span>
+        <h3>Livré à votre porte à Ziguinchor</h3>
+        <p>Boucotte, Néma, Escale, Lyndiane — on livre dans les principaux quartiers sous 48h, installation comprise sur les gros appareils.</p>
+      </div>
+      <div class="why-item">
+        <span class="num">Garantie</span>
+        <h3>Une garantie honorée sur place</h3>
+        <p>Pas besoin d'envoyer l'appareil à Dakar : notre atelier local prend en charge le service après-vente pendant toute la garantie.</p>
+      </div>
+      <div class="why-item">
+        <span class="num">Paiement</span>
+        <h3>Paiement à la livraison ou Wave</h3>
+        <p>Réglez en espèces à la réception ou par Wave / Orange Money — comme vous préférez, sans frais cachés.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot" id="contact">
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <a class="brand" href="index.html"><span class="mark">S</span> Saloum Sen Boutique</a>
+        <div style="max-width:34ch; margin-top:10px;">Électroménager de qualité, choisi pour Ziguinchor et la Casamance.</div>
+      </div>
+      <div class="foot-col">
+        <h4>Boutique</h4>
+        <div>Quartier Escale, Ziguinchor</div>
+        <div>Lun – Sam, 8h30 – 19h30</div>
+      </div>
+      <div class="foot-col">
+        <h4>Contact</h4>
+        <div>+221 78 387 34 91</div>
+        <div><a href="mailto:codecuriosity0@gmail.com">codecuriosity0@gmail.com</a></div>
+        <div><a href="https://wa.me/221783873491" target="_blank" rel="noopener">Écrire sur WhatsApp</a></div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Saloum Sen Boutique — Ziguinchor, Sénégal</span>
+      <span>Fait pour durer sous le climat casamançais</span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="products.js"></script>
+<script src="stock.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

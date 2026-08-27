@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Produit — Saloum Sen Boutique</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <span class="mark">S</span>
+      Saloum Sen Boutique
+    </a>
+    <div class="nav-links">
+      <a href="index.html#produits">Produits</a>
+      <a href="index.html#pourquoi">Pourquoi nous</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+    <button class="nav-cart" id="cart-toggle"><span class="dot"></span> Panier (<span id="cart-count">0</span>)</button>
+  </div>
+</nav>
+
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-drawer" id="cart-drawer">
+  <div class="cart-drawer-head">
+    <h3>Votre panier</h3>
+    <button class="cart-close" id="cart-close" aria-label="Fermer le panier">×</button>
+  </div>
+  <div class="cart-items" id="cart-items"></div>
+  <div class="cart-drawer-foot">
+    <div class="cart-total-row"><span>Total</span><strong id="cart-total">0 FCFA</strong></div>
+    <button class="btn btn-teal cart-checkout" id="cart-checkout">Commander sur WhatsApp</button>
+  </div>
+</aside>
+
+<div class="wrap">
+  <div class="breadcrumb"><a href="index.html">Accueil</a> / <a href="index.html#produits">Produits</a></div>
+  <div class="product-view" id="product-mount"></div>
+
+  <div class="related">
+    <div class="section-head">
+      <div>
+        <h2>Vous pourriez aussi aimer</h2>
+        <p>Autres appareils de la même catégorie.</p>
+      </div>
+    </div>
+    <div class="grid" id="related-grid"></div>
+  </div>
+</div>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <a class="brand" href="index.html"><span class="mark">S</span> Saloum Sen Boutique</a>
+        <div style="max-width:34ch; margin-top:10px;">Électroménager de qualité, choisi pour Ziguinchor et la Casamance.</div>
+      </div>
+      <div class="foot-col">
+        <h4>Boutique</h4>
+        <div>Quartier Escale, Ziguinchor</div>
+        <div>Lun – Sam, 8h30 – 19h30</div>
+      </div>
+      <div class="foot-col">
+        <h4>Contact</h4>
+        <div>+221 78 387 34 91</div>
+        <div><a href="mailto:codecuriosity0@gmail.com">codecuriosity0@gmail.com</a></div>
+        <div><a href="https://wa.me/221783873491" target="_blank" rel="noopener">Écrire sur WhatsApp</a></div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Saloum Sen Boutique — Ziguinchor, Sénégal</span>
+      <span>Fait pour durer sous le climat casamançais</span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="products.js"></script>
+<script src="stock.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
