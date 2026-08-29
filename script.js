@@ -25,7 +25,7 @@ let cart = loadCart(); // { productId: quantite }
 function cartItems() {
   return Object.entries(cart)
     .map(([id, qty]) => {
-      const product = PRODUCTS.find((p) => p.id === id);
+      const product = findProduct(id);
       if (!product) return null;
       return { product, qty, lineTotal: product.price * qty };
     })
@@ -50,7 +50,7 @@ function addToCart(id, qty = 1) {
   cart[id] = finalQty;
   saveCart();
   renderCart();
-  const product = PRODUCTS.find((p) => p.id === id);
+  const product = findProduct(id);
   if (finalQty < wanted) {
     showToast(`Stock limité : ${stock} disponible(s) pour ${product ? product.name : "ce produit"}`);
   } else if (product) {
@@ -101,6 +101,7 @@ function productCard(p) {
       <div class="card-media">
         ${energyChip(p.energy)}
         ${ICONS[p.icon]}
+        ${p.image ? `<img class="card-photo" src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.remove()">` : ""}
       </div>
       <div class="card-body">
         <span class="cat">${p.category}</span>
@@ -122,12 +123,15 @@ function productCard(p) {
 function renderFeaturedGrid() {
   const grid = document.getElementById("featured-grid");
   if (!grid) return;
-  grid.innerHTML = PRODUCTS.map(productCard).join("");
-  grid.addEventListener("click", (e) => {
-    const btn = e.target.closest('[data-action="quick-add"]');
-    if (!btn || btn.disabled) return;
-    addToCart(btn.dataset.id, 1);
-  });
+  grid.innerHTML = allProducts().map(productCard).join("");
+  if (!grid.dataset.listenerAttached) {
+    grid.addEventListener("click", (e) => {
+      const btn = e.target.closest('[data-action="quick-add"]');
+      if (!btn || btn.disabled) return;
+      addToCart(btn.dataset.id, 1);
+    });
+    grid.dataset.listenerAttached = "true";
+  }
 }
 
 /* ---------- Page produit ---------- */
@@ -139,7 +143,7 @@ function renderProductPage() {
 
   const params = new URLSearchParams(window.location.search);
   const id = params.get("id");
-  const product = PRODUCTS.find((p) => p.id === id) || PRODUCTS[0];
+  const product = findProduct(id) || allProducts()[0];
   const stock = getStock(product.id);
   const outOfStock = stock <= 0;
   currentQty = outOfStock ? 0 : 1;
@@ -154,6 +158,7 @@ function renderProductPage() {
     <div class="product-media">
       ${energyChip(product.energy)}
       ${ICONS[product.icon]}
+      ${product.image ? `<img class="product-photo" src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.remove()">` : ""}
     </div>
     <div class="product-info">
       <span class="cat">${product.category}</span>
@@ -211,13 +216,16 @@ function renderProductPage() {
 
   const relatedMount = document.getElementById("related-grid");
   if (relatedMount) {
-    const related = PRODUCTS.filter((p) => p.category === product.category && p.id !== product.id).slice(0, 4);
+    const related = allProducts().filter((p) => p.category === product.category && p.id !== product.id).slice(0, 4);
     relatedMount.innerHTML = related.map(productCard).join("");
-    relatedMount.addEventListener("click", (e) => {
-      const btn = e.target.closest('[data-action="quick-add"]');
-      if (!btn || btn.disabled) return;
-      addToCart(btn.dataset.id, 1);
-    });
+    if (!relatedMount.dataset.listenerAttached) {
+      relatedMount.addEventListener("click", (e) => {
+        const btn = e.target.closest('[data-action="quick-add"]');
+        if (!btn || btn.disabled) return;
+        addToCart(btn.dataset.id, 1);
+      });
+      relatedMount.dataset.listenerAttached = "true";
+    }
   }
 }
 
@@ -313,6 +321,10 @@ document.addEventListener("DOMContentLoaded", () => {
   renderFeaturedGrid();
   renderProductPage();
   onStockChange(() => {
+    renderFeaturedGrid();
+    renderProductPage();
+  });
+  onCatalogChange(() => {
     renderFeaturedGrid();
     renderProductPage();
   });
