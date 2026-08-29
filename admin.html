@@ -44,6 +44,54 @@
       <button class="btn btn-ghost" id="reset-all">Réinitialiser le stock</button>
     </div>
 
+    <button class="btn btn-navy" id="add-product-toggle" type="button">+ Ajouter un produit</button>
+
+    <div class="add-product-panel" id="add-product-panel" style="display:none;">
+      <form id="add-product-form">
+        <div class="form-grid">
+          <label>Nom du produit
+            <input id="new-name" type="text" placeholder="Ex. Congélateur coffre 200L" required>
+          </label>
+          <label>Catégorie
+            <input id="new-category" type="text" placeholder="Ex. Réfrigération" required>
+          </label>
+          <label>Icône
+            <select id="new-icon"></select>
+          </label>
+          <label>Prix (FCFA)
+            <input id="new-price" type="number" min="0" placeholder="Ex. 210000" required>
+          </label>
+          <label>Stock initial
+            <input id="new-stock" type="number" min="0" value="0">
+          </label>
+          <label>Classe énergie
+            <select id="new-energy">
+              <option value="—">— (non applicable)</option>
+              <option value="A">A</option>
+              <option value="A+">A+</option>
+              <option value="A++">A++</option>
+            </select>
+          </label>
+        </div>
+        <label>Accroche courte
+          <input id="new-tagline" type="text" placeholder="Une phrase qui donne envie">
+        </label>
+        <label>Photo <span class="hint">(colle un lien direct vers une image, ex. depuis imgur.com — laisse vide pour garder l'icône)</span>
+          <input id="new-image" type="url" placeholder="https://...">
+        </label>
+        <label>Description
+          <textarea id="new-desc" rows="3" placeholder="Description détaillée du produit"></textarea>
+        </label>
+        <label>Spécifications <span class="hint">(une par ligne, format Clé: Valeur)</span>
+          <textarea id="new-specs" rows="4" placeholder="Capacité: 200 litres&#10;Puissance: 150 W&#10;Garantie: 12 mois"></textarea>
+        </label>
+        <div class="add-product-actions">
+          <button class="btn btn-gold" type="submit">Ajouter au catalogue</button>
+          <span id="add-product-feedback" class="add-product-feedback"></span>
+        </div>
+      </form>
+    </div>
+
     <div class="admin-stats">
       <div class="admin-stat"><strong id="stat-units">0</strong><span>unités en stock</span></div>
       <div class="admin-stat"><strong id="stat-value">0 FCFA</strong><span>valeur totale du stock</span></div>
@@ -54,7 +102,7 @@
 
     <div class="admin-table" id="admin-table"></div>
 
-    <p class="admin-note">Ce stock est enregistré localement dans ce navigateur. Si tu gères la boutique depuis plusieurs appareils, les quantités ne se synchronisent pas automatiquement entre eux.</p>
+    <p class="admin-note">Le stock et le catalogue sont synchronisés en direct via Firebase — les changements faits ici apparaissent sur tous les appareils, y compris le site public, en quelques secondes.</p>
   </div>
 </div>
 
@@ -64,6 +112,7 @@
 <script src="firebase-config.js"></script>
 <script src="products.js"></script>
 <script src="stock.js"></script>
+<script src="catalog.js"></script>
 <script src="admin.js"></script>
 </body>
 </html>
