@@ -261,6 +261,13 @@ button { font-family: inherit; cursor: pointer; }
   position: relative;
 }
 .card-media svg { width: 78px; height: 78px; }
+.card-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
 .energy-badge {
   position: absolute;
@@ -400,6 +407,14 @@ button { font-family: inherit; cursor: pointer; }
   box-shadow: var(--shadow);
 }
 .product-media svg { width: 46%; height: 46%; }
+.product-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+}
 
 .product-info .cat { font-size: 0.78rem; color: var(--teal-600); text-transform: uppercase; letter-spacing: 0.07em; font-weight: 600; }
 .product-info h1 { font-size: 1.9rem; margin-top: 8px; }
