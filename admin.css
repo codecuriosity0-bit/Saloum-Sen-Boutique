@@ -83,7 +83,7 @@
 .admin-table { display: flex; flex-direction: column; gap: 10px; }
 .admin-row {
   display: grid;
-  grid-template-columns: 46px 1fr auto auto auto;
+  grid-template-columns: 46px 1fr auto auto auto auto;
   align-items: center;
   gap: 16px;
   background: #fff;
@@ -129,6 +129,71 @@
   color: var(--ink-500);
   max-width: 60ch;
 }
+
+/* ---------- Formulaire d'ajout de produit ---------- */
+#add-product-toggle { margin-bottom: 20px; }
+.add-product-panel {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px;
+  margin-bottom: 24px;
+}
+.add-product-panel label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink-600);
+  margin-bottom: 16px;
+}
+.add-product-panel .hint { font-weight: 400; color: var(--ink-500); font-size: 0.76rem; }
+.add-product-panel input,
+.add-product-panel select,
+.add-product-panel textarea {
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--ink-900);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 10px 12px;
+  background: var(--cream-50);
+}
+.add-product-panel textarea { resize: vertical; }
+.add-product-panel input:focus,
+.add-product-panel select:focus,
+.add-product-panel textarea:focus { outline: none; border-color: var(--gold-400); }
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0 16px;
+}
+@media (max-width: 700px) { .form-grid { grid-template-columns: 1fr; } }
+.add-product-actions { display: flex; align-items: center; gap: 16px; }
+.add-product-feedback { font-size: 0.85rem; color: var(--teal-600); }
+
+.custom-tag {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--teal-600);
+  background: rgba(47, 110, 98, 0.12);
+  padding: 2px 7px;
+  border-radius: 999px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.admin-delete {
+  background: transparent;
+  border: 1px solid rgba(194, 80, 61, 0.35);
+  color: #C2503D;
+  font-size: 0.76rem;
+  padding: 7px 12px;
+  border-radius: 6px;
+}
+.admin-delete:hover { background: rgba(194, 80, 61, 0.08); }
 
 @media (max-width: 760px) {
   .admin-row { grid-template-columns: 40px 1fr; grid-template-areas: "icon name" "icon meta" "value value" "stepper stepper" "badge badge"; }
