@@ -13,6 +13,8 @@ const ICON_LABELS = {
   microwave: "Micro-ondes"
 };
 
+let editingId = null; // null = mode "ajouter", sinon id du produit en cours de modification
+
 function isUnlocked() {
   try {
     return localStorage.getItem(ADMIN_AUTH_KEY) === "yes";
@@ -87,17 +89,68 @@ function populateIconSelect() {
   });
 }
 
+function specsToText(specs) {
+  return Object.entries(specs || {})
+    .map(([k, v]) => `${k}: ${v}`)
+    .join("\n");
+}
+
+function openFormFor(product) {
+  const panel = document.getElementById("add-product-panel");
+  const toggle = document.getElementById("add-product-toggle");
+  const submitBtn = document.getElementById("add-product-submit");
+  const cancelBtn = document.getElementById("cancel-edit-btn");
+  const title = document.getElementById("add-product-title");
+
+  editingId = product ? product.id : null;
+  panel.style.display = "block";
+  toggle.textContent = "− Fermer le formulaire";
+
+  if (product) {
+    title.textContent = `Modifier « ${product.name} »`;
+    submitBtn.textContent = "Enregistrer les modifications";
+    cancelBtn.style.display = "inline-flex";
+    document.getElementById("new-name").value = product.name;
+    document.getElementById("new-category").value = product.category;
+    document.getElementById("new-icon").value = product.icon;
+    document.getElementById("new-price").value = product.price;
+    document.getElementById("new-stock").value = getStock(product.id);
+    document.getElementById("new-stock").disabled = true;
+    document.getElementById("new-energy").value = product.energy || "—";
+    document.getElementById("new-tagline").value = product.tagline || "";
+    document.getElementById("new-image").value = product.image || "";
+    document.getElementById("new-desc").value = product.desc || "";
+    document.getElementById("new-specs").value = specsToText(product.specs);
+  } else {
+    title.textContent = "Ajouter un produit";
+    submitBtn.textContent = "Ajouter au catalogue";
+    cancelBtn.style.display = "none";
+    document.getElementById("new-stock").disabled = false;
+    document.getElementById("add-product-form").reset();
+  }
+  document.getElementById("add-product-feedback").textContent = "";
+  panel.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
 function setupAddForm() {
   const toggle = document.getElementById("add-product-toggle");
   const panel = document.getElementById("add-product-panel");
   const form = document.getElementById("add-product-form");
   const feedback = document.getElementById("add-product-feedback");
+  const cancelBtn = document.getElementById("cancel-edit-btn");
 
   toggle.addEventListener("click", () => {
     const open = panel.style.display !== "none";
-    panel.style.display = open ? "none" : "block";
-    toggle.textContent = open ? "+ Ajouter un produit" : "− Fermer le formulaire";
+    if (open) {
+      panel.style.display = "none";
+      toggle.textContent = "+ Ajouter un produit";
+      editingId = null;
+    } else {
+      openFormFor(null);
+    }
   });
+
+  cancelBtn.addEventListener("click", () => openFormFor(null));
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -119,15 +172,29 @@ function setupAddForm() {
       return;
     }
 
-    feedback.textContent = "Ajout en cours…";
-    addProduct(data)
-      .then(() => {
-        feedback.textContent = `« ${data.name} » a été ajouté au catalogue.`;
-        form.reset();
-      })
-      .catch(() => {
-        feedback.textContent = "Erreur : le produit n'a pas pu être ajouté, vérifie ta connexion.";
-      });
+    if (editingId) {
+      feedback.textContent = "Enregistrement…";
+      editProduct(editingId, data)
+        .then(() => {
+          feedback.textContent = `« ${data.name} » a été mis à jour.`;
+          openFormFor(null);
+          panel.style.display = "none";
+          toggle.textContent = "+ Ajouter un produit";
+        })
+        .catch(() => {
+          feedback.textContent = "Erreur : la modification n'a pas pu être enregistrée.";
+        });
+    } else {
+      feedback.textContent = "Ajout en cours…";
+      addProduct(data)
+        .then(() => {
+          feedback.textContent = `« ${data.name} » a été ajouté au catalogue.`;
+          form.reset();
+        })
+        .catch(() => {
+          feedback.textContent = "Erreur : le produit n'a pas pu être ajouté, vérifie ta connexion.";
+        });
+    }
   });
 }
 
@@ -135,11 +202,12 @@ function stockRow(p) {
   const stock = getStock(p.id);
   const value = p.price * stock;
   const custom = isCustomProduct(p.id);
+  const overridden = isOverridden(p.id);
   return `
     <div class="admin-row" data-id="${p.id}">
       <div class="admin-row-icon">${ICONS[p.icon]}</div>
       <div class="admin-row-info">
-        <div class="admin-row-name">${p.name} ${custom ? '<span class="custom-tag">ajouté</span>' : ""}</div>
+        <div class="admin-row-name">${p.name} ${custom ? '<span class="custom-tag">ajouté</span>' : ""} ${overridden ? '<span class="custom-tag">modifié</span>' : ""}</div>
         <div class="admin-row-meta">${p.category} · ${formatFCFA(p.price)} / unité</div>
       </div>
       <div class="admin-row-value">${formatFCFA(value)}<span>valeur stock</span></div>
@@ -149,7 +217,11 @@ function stockRow(p) {
         <button class="qty-btn" data-action="inc" aria-label="Augmenter">+</button>
       </div>
       ${stock <= 0 ? `<span class="stock-badge stock-out">Rupture</span>` : stock <= 3 ? `<span class="stock-badge stock-low">Stock bas</span>` : `<span class="stock-badge stock-ok">OK</span>`}
-      ${custom ? `<button class="admin-delete" data-action="delete" aria-label="Supprimer ce produit">Supprimer</button>` : `<span></span>`}
+      <div class="admin-row-actions">
+        <button class="admin-edit" data-action="edit" aria-label="Modifier ce produit">Modifier</button>
+        ${overridden ? `<button class="admin-restore" data-action="restore" aria-label="Restaurer l'original">Restaurer</button>` : ""}
+        ${custom ? `<button class="admin-delete" data-action="delete" aria-label="Supprimer ce produit">Supprimer</button>` : ""}
+      </div>
     </div>
   `;
 }
@@ -178,6 +250,22 @@ function renderTable() {
   mount.querySelectorAll(".admin-stock-input").forEach((input) => {
     input.addEventListener("change", () => {
       setStock(input.dataset.id, parseInt(input.value, 10) || 0);
+    });
+  });
+  mount.querySelectorAll('[data-action="edit"]').forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.closest(".admin-row").dataset.id;
+      const p = findProduct(id);
+      if (p) openFormFor(p);
+    });
+  });
+  mount.querySelectorAll('[data-action="restore"]').forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.closest(".admin-row").dataset.id;
+      const p = findProduct(id);
+      if (confirm(`Restaurer « ${p ? p.name : id} » à sa version d'origine ?`)) {
+        restoreProduct(id);
+      }
     });
   });
   mount.querySelectorAll('[data-action="delete"]').forEach((btn) => {
