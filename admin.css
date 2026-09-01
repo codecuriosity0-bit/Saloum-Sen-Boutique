@@ -195,7 +195,59 @@
 }
 .admin-delete:hover { background: rgba(194, 80, 61, 0.08); }
 
+.admin-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.admin-edit {
+  background: var(--teal-600);
+  border: 1px solid var(--teal-600);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px -4px rgba(47, 110, 98, 0.5);
+}
+.admin-edit:hover { background: #275a50; }
+.admin-restore {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ink-600);
+  font-size: 0.76rem;
+  padding: 7px 12px;
+  border-radius: 6px;
+}
+.admin-restore:hover { background: var(--cream-100); }
+
 @media (max-width: 760px) {
-  .admin-row { grid-template-columns: 40px 1fr; grid-template-areas: "icon name" "icon meta" "value value" "stepper stepper" "badge badge"; }
-  .admin-row-value { text-align: left; }
+  .admin-row {
+    grid-template-columns: 44px 1fr;
+    row-gap: 12px;
+    align-items: start;
+  }
+  .admin-row-icon { grid-column: 1; grid-row: 1; }
+  .admin-row-info { grid-column: 2; grid-row: 1; }
+  .admin-row-value { grid-column: 1 / -1; text-align: left; }
+  .admin-stepper { grid-column: 1 / -1; }
+  .admin-row .stock-badge { grid-column: 1 / -1; justify-self: start; }
+  .admin-row-actions { grid-column: 1 / -1; }
+
+  /* Boutons +/- plus grands et bien alignés sur mobile */
+  .admin-stepper.qty-stepper {
+    gap: 18px;
+    padding: 8px 10px;
+    width: fit-content;
+  }
+  .admin-stepper .qty-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.3rem;
+  }
+  .admin-stock-input {
+    width: 56px;
+    font-size: 1.05rem;
+  }
 }
