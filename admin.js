@@ -31,7 +31,13 @@ function lockAdmin() {
   try {
     localStorage.removeItem(ADMIN_AUTH_KEY);
   } catch (e) {}
-  firebase.auth().signOut().finally(() => location.reload());
+  // On recharge tout de suite : on ne bloque plus l'interface en attendant
+  // que signOut() se termine (ça pouvait rester "pendu" en cas de réseau lent).
+  // La déconnexion Firebase se fait en arrière-plan, sans attendre sa réponse.
+  try {
+    firebase.auth().signOut();
+  } catch (e) {}
+  location.reload();
 }
 
 function openPanel() {
