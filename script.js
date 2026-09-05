@@ -1,6 +1,6 @@
 // Saloum Sen Boutique — logique du site (panier + commande WhatsApp + stock)
 
-const WA_NUMBER = "221783873491"; // +221 78 387 34 91
+const WA_NUMBER = "221775405069"; // +221 77 540 50 69
 const CART_KEY = "ssb_cart_v1";
 
 /* ---------- Panier (persistant via localStorage) ---------- */
